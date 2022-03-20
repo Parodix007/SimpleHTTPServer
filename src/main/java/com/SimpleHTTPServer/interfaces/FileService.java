@@ -1,5 +1,7 @@
 package com.SimpleHTTPServer.interfaces;
 
+import lombok.NonNull;
+
 public interface FileService {
-    void servFileContent();
+    String servFileContent(@NonNull String fileName);
 }
