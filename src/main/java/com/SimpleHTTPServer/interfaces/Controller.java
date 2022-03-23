@@ -2,6 +2,8 @@ package com.SimpleHTTPServer.interfaces;
 
 import lombok.NonNull;
 
+import java.util.Optional;
+
 public interface Controller {
-    String doGet(@NonNull String fileName);
+    Optional<String> doGet(@NonNull String fileName);
 }
