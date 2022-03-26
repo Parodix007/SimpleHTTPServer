@@ -12,7 +12,7 @@ public class main {
         serverHandler.setController(new ControllerImpl(new FileServiceImpl()));
 
         server.setServer(8080);
-        server.setContext("/test1", serverHandler);
+        server.setContext("/pp2", serverHandler);
         server.startServer();
     }
 }

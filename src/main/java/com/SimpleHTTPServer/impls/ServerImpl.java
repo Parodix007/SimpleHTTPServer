@@ -19,6 +19,7 @@ public class ServerImpl implements Server {
         try {
             httpServer = HttpServer.create(new InetSocketAddress(port), 0);
         } catch (final IOException e) {
+            e.printStackTrace();
             throw new ServerErrors(String.format("error while creating server: %s", e.getMessage()));
         }
     }
@@ -26,21 +27,17 @@ public class ServerImpl implements Server {
     @Override
     public <Handler extends HttpHandlerModel> void setContext(@NonNull String[] paths, @NonNull Handler handler) throws ServerErrors {
         if (paths.length == 0) return;
-        try {
-            Stream<@NonNull String> stream = Arrays.stream(paths);
-            stream.forEach(path -> {
-                httpServer.createContext(path, handler);
-            });
-        } catch (final IllegalArgumentException e) {
-            throw new ServerErrors(String.format("error while adding context: %s", e.getMessage()));
-        }
+        Stream<@NonNull String> stream = Arrays.stream(paths);
+        stream.filter(path -> path.startsWith("/")).forEach(path -> httpServer.createContext(path, handler));
     }
 
     @Override
     public <Handler extends HttpHandlerModel> void setContext(@NonNull String path, @NonNull Handler handler) throws ServerErrors {
+        if (!path.startsWith("/")) throw new ServerErrors("Wrong path patern!");
         try {
             httpServer.createContext(path, handler);
         } catch (final IllegalArgumentException e) {
+            e.printStackTrace();
             throw new ServerErrors(String.format("error while adding context: %s", e.getMessage()));
         }
     }
